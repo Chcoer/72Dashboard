@@ -185,7 +185,7 @@
 <body>
     <div id="text">
         <style>
-            form {
+            #form {
                 left: 0.5%;
                 width: 50%;
                 height: 50vh;
@@ -195,7 +195,7 @@
                 /* 新增 */
             }
 
-            form input {
+            #form input {
                 font-size: 17px;
                 height: 2rem;
                 width: 110%;
@@ -207,7 +207,7 @@
                 /* 新增 */
             }
 
-            form label {
+            #form label {
                 font-size: 14px;
                 position: absolute;
                 width: 90%;
@@ -218,7 +218,7 @@
             }
 
 
-            form label::after {
+            #form label::after {
                 content: "";
                 /* 这个很关键，我们需要这个属性底部边框才会显示出来 */
                 height: 3rem;
@@ -234,7 +234,7 @@
                 /* 添加动画来达到平滑移动的效果 */
             }
 
-            form label span {
+            #form label span {
                 position: absolute;
                 bottom: -3rem;
                 left: 0;
@@ -242,8 +242,8 @@
                 /* 动画，达到平滑移动的效果 */
             }
 
-            form input:focus+label span,
-            form input:valid+label span {
+            #form input:focus+label span,
+            #form input:valid+label span {
                 transform: translateY(-160%);
                 /* 将 Username向上平移 */
                 font-Size: 0.93rem;
@@ -252,19 +252,79 @@
                 /* 高亮颜色 */
             }
 
-            form input:focus+label::after,
-            form input:valid+label::after {
+            #form input:focus+label::after,
+            #form input:valid+label::after {
                 transform: translateX(0);
                 /* 将左边的高亮底部边框平移回来 */
             }
         </style>
         <h1>更改前台背景信息</h1>
-        <form>
-            <input tyPE="text" required />
+        <div id="form">
+            <input id="input1" tyPE="text" required />
             <label>
                 <span>Background-img</span>
             </label>
-        </form>
+            <style>
+                .btn-Gsmt {
+                    z-index: 150;
+                    border-radius: 10%;
+                    /* 相对定位 */
+                    position: absolute;
+                    top: 100%;
+                    border: none;
+                    background: rgb(26, 115, 232);
+                    width: 100px;
+                    height: 40px;
+                    font-size: 18px;
+                    color: #fff;
+                    /* 字间距 */
+                    letter-spacing: 3px;
+                    /* 阴影 */
+                    cursor: pointer;
+                    /* 溢出隐藏 */
+                    overflow: hidden;
+                    transition: 1s;
+                }
+
+                .btn-Gsmt:hover {
+                    box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+                }
+
+                .btn-Gsmt span {
+                    /* 绝对定位 */
+                    position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    background-color: rgb(115, 169, 241);
+                    transform: translate(-50%, -50%);
+                    border-radius: 50%;
+                    /* 执行动画 */
+                    animation: animate 1.5s ease;
+                    /* 设置元素不对指针事件做出反应 */
+                    pointer-events: none;
+                }
+            </style>
+            <button class="btn-Gsmt">提交</button>
+            <script type="text/javascript">
+                // 获取所有按钮
+                const btnsmt = document.querySelectorAll(".btn-Gsmt");
+                // 循环所有按钮，并为每一个按钮添加点击事件
+                btnsmt.forEach(btn => {
+                    btn.addEventListener("click", e => {
+                        // 创建span元素，并设置其位置为鼠标点击的位置
+                        let span = document.createElement("span");
+                        span.style.left = e.offsetX + "px";
+                        span.style.top = e.offsetY + "px";
+                        // 将span元素添加至按钮标签里
+                        btn.appendChild(span);
+                        // 1秒后删除span元素
+                        setTimeout(() => {
+                            span.remove();
+                        }, 1000);
+                    })
+                })
+            </script>
+        </div>
     </div>
 
     <div id="main" style="margin-left: 0px;">
@@ -274,11 +334,12 @@
 
     <div id="mySidenav" class="sidenav" style="width: 0px; margin:none;">
         <button class="btn-G" href="#">🏠仪表盘 &#32; &#32;</button>
-        <button class="btn-G" href="#">💬背景</button>
+        <a href="https://chcoer.github.io/72Dashboard/background"><button class="btn-G" href="https://chcoer.github.io/72Dashboard/background">💬背景</button></a>
         <button class="btn-G" href="#">🔖一言</button>
         <button class="btn-G" href="#">📝标题</button>
         <button class="btn-G" href="#">⌛课程</button>
         <button class="btn-G" href="#">📚作业</button>
+        <button class="btn-G" id="smtbtn1" onclick="smtbtn()" href="javascript:void(0);">Submit</button>
         <script type="text/javascript">
             // 获取所有按钮
             const btns = document.querySelectorAll(".btn-G");
@@ -297,6 +358,27 @@
                     }, 1000);
                 })
             })
+        </script>
+        <script>
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toGMTString();
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+                }
+                return "";
+            }
+            function smtbtn(){
+                var inputValue = document.getElementById("input1").value;
+                setCookie("backgroundimgurl",inputValue,3000);
+            }
         </script>
     </div>
 
