@@ -364,7 +364,7 @@
                 var d = new Date();
                 d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
                 var expires = "expires=" + d.toGMTString();
-                document.cookie = cname + "=" + cvalue + "; " + expires;
+                document.cookie = cname + "=" + cvalue + "; " + expires + ";Samesite=None";
             }
             function getCookie(cname) {
                 var name = cname + "=";
@@ -377,6 +377,7 @@
             }
             function smtbtn(){
                 var inputValue = document.getElementById("input1").value;
+                alert(inputValue);
                 setCookie("backgroundimgurl",inputValue,3000);
             }
         </script>
